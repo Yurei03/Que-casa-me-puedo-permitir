@@ -4,7 +4,7 @@ import './style.css';
 
 
 
-// ========== PROVINCIAS ==========
+
 const PROVINCIAS = [
   "Albacete","Alicante / Alacant","Almería","Araba/Álava","Asturias","Ávila","Badajoz",
   "Balears, Illes","Barcelona","Bizkaia / Vizcaya","Burgos","Cáceres","Cádiz","Cantabria",
@@ -16,7 +16,7 @@ const PROVINCIAS = [
   "Valencia/València","Valladolid","Zamora","Zaragoza"
 ];
 
-// ========== FORMATEO Y PARSEO ==========
+
 function parseSpanishNumber(str) {
   if (!str || typeof str !== 'string') return NaN;
   str = str.trim();
@@ -104,7 +104,7 @@ function setupCurrencyInput(inputEl) {
   }
 }
 
-// ========== PASOS DEL ASISTENTE ==========
+
 const stepsData = [
   {
     title: "Donde quieres comprar",
@@ -222,7 +222,7 @@ function h(tag, props = {}, ...children) {
   return el;
 }
 
-// ========== RENDERIZADO DEL ASISTENTE ==========
+
 function renderAssistente() {
   const app = document.getElementById('app');
   app.innerHTML = '';
@@ -500,7 +500,7 @@ function showWarning(msg) {
   setTimeout(() => { warnDiv.style.opacity = '0'; setTimeout(() => warnDiv.remove(), 400); }, 2800);
 }
 
-// ========== MAPEO DE PROVINCIAS A REGIONES (para ITP) ==========
+
 const provinces = {
   "Albacete": "castilla-la-mancha",
   "Alicante / Alacant": "comunidad-valenciana",
@@ -556,7 +556,7 @@ const provinces = {
   "Zaragoza": "aragon"
 };
 
-// ========== FUNCIÓN ITP DETALLADA ==========
+
 function getITP(region, price) {
   switch(region) {
     case 'andalucia': return 0.07;
@@ -582,7 +582,7 @@ function getITP(region, price) {
   }
 }
 
-// ========== GASTOS FIJOS POR TRAMO (notaría, registro, gestoría, otros) ==========
+
 const expensByRange = [
   { desde: 30000, hasta: 60000, notaria: 1200, registro: 523, gestoria: 500, otros: 120 },
   { desde: 60001, hasta: 80000, notaria: 1280, registro: 550, gestoria: 500, otros: 120 },
@@ -609,7 +609,7 @@ function calcularGastosFijos(price) {
   return last.notaria + last.registro + last.gestoria + last.otros;
 }
 
-// ========== CALCULADORA HIPOTECARIA (con enlace debajo de la cuota mensual) ==========
+
 function renderCalculadoraHipotecaria() {
   const app = document.getElementById('app');
   app.innerHTML = '';
@@ -681,7 +681,7 @@ function renderCalculadoraHipotecaria() {
             h('div', { className: 'new-metric-value', id: 'metricMonthlyPayment' }, '-')
           )
         ),
-        // Enlace debajo del bloque de cuota mensual, antes de los gráficos
+        
         h('div', { style: 'text-align: center; margin: 0.5rem 0 1rem 0;' },
           h('a', { id: 'analysisLink', href: '#', style: 'color: #2563eb; text-decoration: underline; cursor: pointer; font-weight: 500;' }, 'Ver análisis completo')
         ),
@@ -877,7 +877,7 @@ function renderCalculadoraHipotecaria() {
     const totalPayment = monthlyPayment * n;
     const totalInterest = Math.max(0, totalPayment - actualLoan);
 
-    // Actualizar elementos del DOM (sin porcentajes de ayuda)
+    
     document.getElementById('legendPrice').textContent = formatIntegerEuro(maxPrice);
     document.getElementById('legendTaxes').textContent = formatIntegerEuro(totalTaxesAndCosts);
     document.getElementById('legendSavings').textContent = formatIntegerEuro(savings);
@@ -888,7 +888,7 @@ function renderCalculadoraHipotecaria() {
     document.getElementById('metricPriceOnly').textContent = formatIntegerEuro(maxPrice);
     document.getElementById('metricMonthlyPayment').textContent = formatStandardEuro(monthlyPayment);
 
-    // Gráficos
+    
     const canvas1 = document.getElementById('miGrafico');
     if (canvas1) {
       const ctx = canvas1.getContext('2d');
@@ -924,7 +924,7 @@ function renderCalculadoraHipotecaria() {
       }
     }
 
-    // Manejo del modal
+    
     const analysisLink = document.getElementById('analysisLink');
     const modal = document.getElementById('analysisModal');
     const modalBody = document.getElementById('modalBody');
