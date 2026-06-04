@@ -129,7 +129,7 @@ const stepsData = [
     help: "Recuerda guardar una parte de tus ahorros si necesitas comprar muebles o realizar alguna reforma.",
     inputType: "savings",
     name: "savings",
-    placeholder: "30000",
+    placeholder: "30.000",
     default: ""
   },
   {
@@ -162,7 +162,7 @@ const stepsData = [
     help: "Suma de todos los ingresos mensuales, incluyendo nominas, rentas por alquiler, etc.",
     inputType: "monthly_income",
     name: "monthlyIncome",
-    placeholder: "2500",
+    placeholder: "2.500",
     default: ""
   },
   {
@@ -357,7 +357,7 @@ function renderCurrentStepContent() {
     const wrapper = h('div', {});
     wrapper.appendChild(h('div', { className: 'ColorLabel' }, 'Ahorro aportado'));
     const inputDiv = h('div', { className: 'input' });
-    const inputField = h('input', { type: 'text', id: 'savingsInput', className: 'numb', placeholder: step.placeholder || '30000', value: rawVal ? formatCurrencyValue(rawVal) : '', onInput: saveCurrentStepInput });
+    const inputField = h('input', { type: 'text', id: 'savingsInput', className: 'numb', placeholder: step.placeholder || '30.000', value: rawVal ? formatCurrencyValue(rawVal) : '', onInput: saveCurrentStepInput });
     inputDiv.appendChild(inputField); inputDiv.appendChild(h('span', { className: 'valor' }, '€')); wrapper.appendChild(inputDiv); inputGroup.appendChild(wrapper);
     setTimeout(() => setupCurrencyInput(inputField), 0);
   } else if (step.inputType === 'monthly_income') {
@@ -365,7 +365,7 @@ function renderCurrentStepContent() {
     const wrapper = h('div', {});
     wrapper.appendChild(h('div', { className: 'ColorLabel' }, 'Ingresos netos mensuales'));
     const inputDiv = h('div', { className: 'input' });
-    const inputField = h('input', { type: 'text', id: 'incomeInput', className: 'numb', placeholder: step.placeholder || '2500', value: rawVal ? formatCurrencyValue(rawVal) : '', onInput: saveCurrentStepInput });
+    const inputField = h('input', { type: 'text', id: 'incomeInput', className: 'numb', placeholder: step.placeholder || '2.500', value: rawVal ? formatCurrencyValue(rawVal) : '', onInput: saveCurrentStepInput });
     inputDiv.appendChild(inputField); inputDiv.appendChild(h('span', { className: 'valor' }, '€/mes')); wrapper.appendChild(inputDiv); inputGroup.appendChild(wrapper);
     setTimeout(() => setupCurrencyInput(inputField), 0);
   } else if (step.inputType === 'employment') {
@@ -644,7 +644,7 @@ function renderCalculadoraHipotecaria() {
               h('option', { value: 'fijo', selected: true }, 'Fijo'),
               h('option', { value: 'variable' }, 'Variable')
             ),
-            h('input', { className: 'numb', id: 'interestRateCalc', type: 'number', value: '2.15', step: '0.05', min: '0', style: 'flex:0.5;', onInput: calcularTodo }),
+            h('input', { className: 'numb', id: 'interestRateCalc', type: 'number', value: '2.15', step: '0.01', min: '0', style: 'flex:0.5;', onInput: calcularTodo }),
             h('span', { className: 'valor' }, '%')
           ),
           h('div', { id: 'interestNoteCalc', className: 'interest-rate-note' }, 'Tipo fijo: la cuota no variará. El banco admite hasta el 25% de tus ingresos.'),
