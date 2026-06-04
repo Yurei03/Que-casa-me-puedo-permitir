@@ -4,6 +4,7 @@ import './style.css';
 
 
 
+// ========== PROVINCIAS ==========
 const PROVINCIAS = [
   "Albacete","Alicante / Alacant","Almería","Araba/Álava","Asturias","Ávila","Badajoz",
   "Balears, Illes","Barcelona","Bizkaia / Vizcaya","Burgos","Cáceres","Cádiz","Cantabria",
@@ -15,7 +16,7 @@ const PROVINCIAS = [
   "Valencia/València","Valladolid","Zamora","Zaragoza"
 ];
 
-
+// ========== FORMATEO Y PARSEO ==========
 function parseSpanishNumber(str) {
   if (!str || typeof str !== 'string') return NaN;
   str = str.trim();
@@ -103,7 +104,7 @@ function setupCurrencyInput(inputEl) {
   }
 }
 
-
+// ========== PASOS DEL ASISTENTE ==========
 const stepsData = [
   {
     title: "Donde quieres comprar",
@@ -129,7 +130,7 @@ const stepsData = [
     help: "Recuerda guardar una parte de tus ahorros si necesitas comprar muebles o realizar alguna reforma.",
     inputType: "savings",
     name: "savings",
-    placeholder: "30.000",
+    placeholder: "30000",
     default: ""
   },
   {
@@ -162,7 +163,7 @@ const stepsData = [
     help: "Suma de todos los ingresos mensuales, incluyendo nominas, rentas por alquiler, etc.",
     inputType: "monthly_income",
     name: "monthlyIncome",
-    placeholder: "2.500",
+    placeholder: "2500",
     default: ""
   },
   {
@@ -221,7 +222,7 @@ function h(tag, props = {}, ...children) {
   return el;
 }
 
-
+// ========== RENDERIZADO DEL ASISTENTE ==========
 function renderAssistente() {
   const app = document.getElementById('app');
   app.innerHTML = '';
@@ -357,7 +358,7 @@ function renderCurrentStepContent() {
     const wrapper = h('div', {});
     wrapper.appendChild(h('div', { className: 'ColorLabel' }, 'Ahorro aportado'));
     const inputDiv = h('div', { className: 'input' });
-    const inputField = h('input', { type: 'text', id: 'savingsInput', className: 'numb', placeholder: step.placeholder || '30.000', value: rawVal ? formatCurrencyValue(rawVal) : '', onInput: saveCurrentStepInput });
+    const inputField = h('input', { type: 'text', id: 'savingsInput', className: 'numb', placeholder: step.placeholder || '30000', value: rawVal ? formatCurrencyValue(rawVal) : '', onInput: saveCurrentStepInput });
     inputDiv.appendChild(inputField); inputDiv.appendChild(h('span', { className: 'valor' }, '€')); wrapper.appendChild(inputDiv); inputGroup.appendChild(wrapper);
     setTimeout(() => setupCurrencyInput(inputField), 0);
   } else if (step.inputType === 'monthly_income') {
@@ -365,7 +366,7 @@ function renderCurrentStepContent() {
     const wrapper = h('div', {});
     wrapper.appendChild(h('div', { className: 'ColorLabel' }, 'Ingresos netos mensuales'));
     const inputDiv = h('div', { className: 'input' });
-    const inputField = h('input', { type: 'text', id: 'incomeInput', className: 'numb', placeholder: step.placeholder || '2.500', value: rawVal ? formatCurrencyValue(rawVal) : '', onInput: saveCurrentStepInput });
+    const inputField = h('input', { type: 'text', id: 'incomeInput', className: 'numb', placeholder: step.placeholder || '2500', value: rawVal ? formatCurrencyValue(rawVal) : '', onInput: saveCurrentStepInput });
     inputDiv.appendChild(inputField); inputDiv.appendChild(h('span', { className: 'valor' }, '€/mes')); wrapper.appendChild(inputDiv); inputGroup.appendChild(wrapper);
     setTimeout(() => setupCurrencyInput(inputField), 0);
   } else if (step.inputType === 'employment') {
@@ -499,7 +500,7 @@ function showWarning(msg) {
   setTimeout(() => { warnDiv.style.opacity = '0'; setTimeout(() => warnDiv.remove(), 400); }, 2800);
 }
 
-
+// ========== MAPEO DE PROVINCIAS A REGIONES (para ITP) ==========
 const provinces = {
   "Albacete": "castilla-la-mancha",
   "Alicante / Alacant": "comunidad-valenciana",
@@ -555,7 +556,7 @@ const provinces = {
   "Zaragoza": "aragon"
 };
 
-
+// ========== FUNCIÓN ITP DETALLADA ==========
 function getITP(region, price) {
   switch(region) {
     case 'andalucia': return 0.07;
@@ -581,7 +582,7 @@ function getITP(region, price) {
   }
 }
 
-
+// ========== GASTOS FIJOS POR TRAMO (notaría, registro, gestoría, otros) ==========
 const expensByRange = [
   { desde: 30000, hasta: 60000, notaria: 1200, registro: 523, gestoria: 500, otros: 120 },
   { desde: 60001, hasta: 80000, notaria: 1280, registro: 550, gestoria: 500, otros: 120 },
@@ -608,7 +609,7 @@ function calcularGastosFijos(price) {
   return last.notaria + last.registro + last.gestoria + last.otros;
 }
 
-
+// ========== CALCULADORA HIPOTECARIA (con enlace debajo de la cuota mensual) ==========
 function renderCalculadoraHipotecaria() {
   const app = document.getElementById('app');
   app.innerHTML = '';
@@ -644,7 +645,7 @@ function renderCalculadoraHipotecaria() {
               h('option', { value: 'fijo', selected: true }, 'Fijo'),
               h('option', { value: 'variable' }, 'Variable')
             ),
-            h('input', { className: 'numb', id: 'interestRateCalc', type: 'number', value: '2.15', step: '0.01', min: '0', style: 'flex:0.5;', onInput: calcularTodo }),
+            h('input', { className: 'numb', id: 'interestRateCalc', type: 'number', value: '2.15', step: '0.05', min: '0', style: 'flex:0.5;', onInput: calcularTodo }),
             h('span', { className: 'valor' }, '%')
           ),
           h('div', { id: 'interestNoteCalc', className: 'interest-rate-note' }, 'Tipo fijo: la cuota no variará. El banco admite hasta el 25% de tus ingresos.'),
@@ -669,12 +670,7 @@ function renderCalculadoraHipotecaria() {
         h('div', { className: 'results-grid' },
           h('div', { className: 'result-block full-width highlighted metric-block' },
             h('div', { className: 'new-metric-title' }, 'Precio inmueble + gastos'),
-            h('div', { className: 'new-metric-value', id: 'metricPriceTotal' }, '-'),
-            h('div', { className: 'new-metric-sub' },
-              h('span', { className: 'new-percent-label' }, 'Ahorro aportado '),
-              h('span', { className: 'new-percent-value', id: 'metricSavingsPercent' }, '0%')
-            ),
-            h('div', { className: 'new-metric-help', id: 'metricSavingsHelp' }, '')
+            h('div', { className: 'new-metric-value', id: 'metricPriceTotal' }, '-')
           ),
           h('div', { className: 'result-block full-width highlighted metric-block' },
             h('div', { className: 'new-metric-title' }, 'Precio del inmueble'),
@@ -682,13 +678,12 @@ function renderCalculadoraHipotecaria() {
           ),
           h('div', { className: 'result-block full-width metric-block' },
             h('div', { className: 'new-metric-title' }, 'Tu cuota mensual'),
-            h('div', { className: 'new-metric-value', id: 'metricMonthlyPayment' }, '-'),
-            h('div', { className: 'new-metric-sub' },
-              h('span', { className: 'new-percent-label' }, 'Endeudamiento '),
-              h('span', { className: 'new-percent-value', id: 'metricDebtPercent' }, '0%')
-            ),
-            h('div', { className: 'new-metric-help', id: 'metricDebtHelp' }, '')
+            h('div', { className: 'new-metric-value', id: 'metricMonthlyPayment' }, '-')
           )
+        ),
+        // Enlace debajo del bloque de cuota mensual, antes de los gráficos
+        h('div', { style: 'text-align: center; margin: 0.5rem 0 1rem 0;' },
+          h('a', { id: 'analysisLink', href: '#', style: 'color: #2563eb; text-decoration: underline; cursor: pointer; font-weight: 500;' }, 'Ver análisis completo')
         ),
         h('div', { style: 'margin-top: 1rem;' },
           h('div', { style: 'font-weight:600; font-size:0.9rem; color:#1e3a5f;' }, 'Desglose del precio de compra'),
@@ -706,9 +701,6 @@ function renderCalculadoraHipotecaria() {
             h('div', { className: 'legend-item' }, h('span', { className: 'legend-color', style: 'background:#6366f1;' }), ' Importe hipoteca ', h('span', { className: 'legend-value', id: 'legendLoan' }, '')),
             h('div', { className: 'legend-item' }, h('span', { className: 'legend-color', style: 'background:#ef4444;' }), ' Intereses ', h('span', { className: 'legend-value', id: 'legendInterests' }, ''))
           )
-        ),
-        h('div', { style: 'text-align: center; margin-top: 1rem;' },
-          h('a', { id: 'analysisLink', href: '#', style: 'color: #2563eb; text-decoration: underline; cursor: pointer; font-weight: 500;' }, 'Ver análisis completo')
         )
       )
     ),
@@ -885,47 +877,18 @@ function renderCalculadoraHipotecaria() {
     const totalPayment = monthlyPayment * n;
     const totalInterest = Math.max(0, totalPayment - actualLoan);
 
-    
+    // Actualizar elementos del DOM (sin porcentajes de ayuda)
     document.getElementById('legendPrice').textContent = formatIntegerEuro(maxPrice);
     document.getElementById('legendTaxes').textContent = formatIntegerEuro(totalTaxesAndCosts);
     document.getElementById('legendSavings').textContent = formatIntegerEuro(savings);
     document.getElementById('legendLoan').textContent = formatIntegerEuro(actualLoan);
     document.getElementById('legendInterests').textContent = formatIntegerEuro(totalInterest);
 
-    
-    let ahorroPct = costProperty > 0 ? (savings / costProperty) * 100 : 0;
-    ahorroPct = Math.min(100, Math.max(0, ahorroPct));
     document.getElementById('metricPriceTotal').textContent = formatIntegerEuro(costProperty);
-    document.getElementById('metricSavingsPercent').textContent = Math.round(ahorroPct) + '%';
-
-    
-    let endeudamientoPct = monthlyIncome > 0 ? (monthlyPayment / monthlyIncome) * 100 : 0;
-    endeudamientoPct = Math.min(100, Math.max(0, endeudamientoPct));
-    document.getElementById('metricDebtPercent').textContent = Math.round(endeudamientoPct) + '%';
-
-    
-    let savingsHelpText = '';
-    if (savings < maxPrice * 0.20) {
-      savingsHelpText = "Los bancos no suelen financiar más del 80% del precio de compra, aunque en algunos casos llegan al 95%, o incluso al 100% si se aportan más garantías.";
-    } else {
-      savingsHelpText = "Puedes pagar la entrada porque tienes unos ahorros de al menos el 20% del precio de compra.";
-    }
-    document.getElementById('metricSavingsHelp').innerText = savingsHelpText;
-
-    let debtHelpText = '';
-    if (endeudamientoPct <= 35) {
-      debtHelpText = "Puedes pagar la cuota porque es inferior al 35% de tus ingresos netos.";
-    } else if (endeudamientoPct > 40) {
-      debtHelpText = "No puedes pagar la cuota porque es superior al 40% de tus ingresos netos.";
-    } else {
-      debtHelpText = "La cuota está en el límite. Algunos bancos podrían aceptarla, pero es recomendable reducirla.";
-    }
-    document.getElementById('metricDebtHelp').innerText = debtHelpText;
-
     document.getElementById('metricPriceOnly').textContent = formatIntegerEuro(maxPrice);
     document.getElementById('metricMonthlyPayment').textContent = formatStandardEuro(monthlyPayment);
 
-    
+    // Gráficos
     const canvas1 = document.getElementById('miGrafico');
     if (canvas1) {
       const ctx = canvas1.getContext('2d');
@@ -961,7 +924,7 @@ function renderCalculadoraHipotecaria() {
       }
     }
 
-    
+    // Manejo del modal
     const analysisLink = document.getElementById('analysisLink');
     const modal = document.getElementById('analysisModal');
     const modalBody = document.getElementById('modalBody');
